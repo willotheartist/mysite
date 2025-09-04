@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+/* ===== Design Tokens (Light base) ===== */
+:root {
+  --bg: #F1F1F1;         /* Page background */
+  --fg: #000000;         /* Foreground text */
+  --muted: #1f1f1f;      /* Muted headings/labels */
+  --ring: #3A61FF;       /* Accent for focus rings/links if desired */
+
+  /* Keep your font vars if you’re loading Geist elsewhere */
+  --font-sans: var(--font-geist-sans, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial);
+  --font-mono: var(--font-geist-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
+}
+
+/* Optional: basic dark-scheme token swap (not active unless you add a toggle) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0a;
+    --fg: #ededed;
+    --muted: #cfcfcf;
+  }
+}
+
+/* ===== Map tokens to Tailwind v4 theme vars ===== */
+@theme inline {
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-muted: var(--muted);
+  --color-ring: var(--ring);
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+}
+
+/* ===== Base element styles ===== */
+html, body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Improve text selection contrast */
+::selection {
+  background: color-mix(in srgb, var(--ring) 24%, transparent);
+}
+
+/* Focus outlines that respect our ring color */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* ===== Magnetic cursor (used by components/interactive/MagneticCursor.tsx) ===== */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 10px; height: 10px;
+  margin-top: -5px; margin-left: -5px;
+  border-radius: 999px;
+  background: var(--fg);
+  opacity: 0.9;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.2s ease;
+}
+
+.cursor-dot.-magnet {
+  transform: scale(2.2);
+}
+
+a, button, [data-cursor="magnet"] {
+  cursor: none;
+}
+
+input, textarea {
+  cursor: text !important;
+}
+
+.card {
+  @apply rounded-3xl border border-black/10 bg-white;
+}
+
+/* ===== ScrollBlurTypography styles ===== */
+.sbt-line {
+  position: relative;
+  white-space: pre-wrap;
+}
+
+.sbt-prep .sbt-word {
+  filter: blur(10px);
+  transform: translateY(12px) scale(0.985);
+  opacity: 0;
+}
+
+.sbt-word {
+  display: inline-block;
+  will-change: filter, transform, opacity;
+  transition:
+    filter 650ms cubic-bezier(.2,.65,.2,1) var(--sbt-delay),
+    transform 650ms cubic-bezier(.2,.65,.2,1) var(--sbt-delay),
+    opacity 650ms ease var(--sbt-delay);
+}
+
+.sbt-line.is-in .sbt-word {
+  filter: blur(0);
+  transform: translateY(0) scale(1);
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sbt-word {
+    transition: none;
+    filter: none;
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* ===== Force-hide the global header for .no-header pages ===== */
+html.no-header header,
+html.no-header body > nav,
+html.no-header body > div[role="banner"] {
+  display: none !important;
+}
