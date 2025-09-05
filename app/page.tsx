@@ -1,11 +1,10 @@
-// app/page.tsx
 "use client";
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import BubbleMenu from "@/components/menus/BubbleMenu";
+// ❌ Removed: BubbleMenu import
 
 // 🚫 Avoid SSR issues for DOM/scroll heavy components
 const StickyGallery = dynamic(() => import("@/components/sections/StickyGallery"), { ssr: false });
@@ -17,26 +16,7 @@ const ProjectsShowcase = dynamic(() => import("@/components/sections/ProjectsSho
 // ✅ New interactive hero
 const HeroInteractive = dynamic(() => import("@/components/sections/HeroInteractive"), { ssr: false });
 
-const INDUSTRY_ITEMS = [
-  { label: "Restaurants & F&B", href: "#industry-restaurants", rotation: -6, hoverStyles: { bgColor: "#FFB703", textColor: "#111" } },
-  { label: "Photography Studios", href: "#industry-photo", rotation: 8, hoverStyles: { bgColor: "#1DB954", textColor: "#fff" } },
-  { label: "Mindfulness & Wellness", href: "#industry-mindfulness", rotation: 6, hoverStyles: { bgColor: "#7C3AED", textColor: "#fff" } },
-  { label: "AI / Tech", href: "#industry-ai", rotation: -8, hoverStyles: { bgColor: "#0EA5E9", textColor: "#fff" } },
-  { label: "Supplements", href: "#industry-supplements", rotation: 10, hoverStyles: { bgColor: "#EF4444", textColor: "#fff" } },
-  { label: "Bicycles / Mobility", href: "#industry-bikes", rotation: -4, hoverStyles: { bgColor: "#10B981", textColor: "#fff" } },
-  { label: "Language Schools", href: "#industry-language", rotation: 6, hoverStyles: { bgColor: "#F59E0B", textColor: "#111" } },
-  { label: "E-commerce", href: "#industry-ecom", rotation: -6, hoverStyles: { bgColor: "#111827", textColor: "#fff" } },
-  { label: "Magazines / Media", href: "#industry-media", rotation: 8, hoverStyles: { bgColor: "#3B82F6", textColor: "#fff" } },
-  { label: "Creative Studios", href: "#industry-creative", rotation: -10, hoverStyles: { bgColor: "#A3E635", textColor: "#111" } },
-  { label: "Fashion / Apparel", href: "#industry-fashion", rotation: 6, hoverStyles: { bgColor: "#F472B6", textColor: "#111" } },
-  { label: "Events & Exhibitions", href: "#industry-events", rotation: -8, hoverStyles: { bgColor: "#22D3EE", textColor: "#111" } },
-  { label: "Dance / Schools", href: "#industry-dance", rotation: 8, hoverStyles: { bgColor: "#FB923C", textColor: "#111" } },
-  { label: "Wine & Beverage", href: "#industry-wine", rotation: -6, hoverStyles: { bgColor: "#7F1D1D", textColor: "#fff" } },
-  { label: "Sports & Social Apps", href: "#industry-sportsapps", rotation: 10, hoverStyles: { bgColor: "#16A34A", textColor: "#fff" } },
-  { label: "City Guides / Platforms", href: "#industry-cityguides", rotation: -10, hoverStyles: { bgColor: "#334155", textColor: "#fff" } },
-  { label: "Games / Interactive", href: "#industry-games", rotation: 6, hoverStyles: { bgColor: "#EC4899", textColor: "#fff" } },
-  { label: "Pharma Fairs Screens", href: "#industry-pharma", rotation: -4, hoverStyles: { bgColor: "#60A5FA", textColor: "#111" } },
-];
+// ❌ Removed: INDUSTRY_ITEMS (no longer used)
 
 export default function Home() {
   const router = useRouter();
@@ -124,36 +104,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FLOATING MENU */}
-      <BubbleMenu
-        variant="fab"
-        fabLabel="Industries I’ve worked in"
-        items={INDUSTRY_ITEMS}
-        useFixedPosition
-        menuBg="#ffffff"
-        menuContentColor="#111111"
-        className="z-[2000]"
-      />
-
-      {/* ANCHORS */}
-      <div id="industry-restaurants" />
-      <div id="industry-photo" />
-      <div id="industry-mindfulness" />
-      <div id="industry-ai" />
-      <div id="industry-supplements" />
-      <div id="industry-bikes" />
-      <div id="industry-language" />
-      <div id="industry-ecom" />
-      <div id="industry-media" />
-      <div id="industry-creative" />
-      <div id="industry-fashion" />
-      <div id="industry-events" />
-      <div id="industry-dance" />
-      <div id="industry-wine" />
-      <div id="industry-sportsapps" />
-      <div id="industry-cityguides" />
-      <div id="industry-games" />
-      <div id="industry-pharma" />
+      {/* ❌ Removed: BubbleMenu floating menu */}
+      {/* ❌ Removed: unused industry anchor divs */}
     </main>
   );
 }
