@@ -123,3 +123,13 @@ html.no-header body > nav,
 html.no-header body > div[role="banner"] {
   display: none !important;
 }
+
+/* ===== Temporary kill switch: Bubble Menu ===== */
+.bubble-menu,
+.toggle-bubble,
+.menu-btn,
+#industry-restaurants,
+#industry-photo,
+#industry-mindfulness {
+  display: none !important;
+}
