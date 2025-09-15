@@ -32,11 +32,22 @@ export default function SerpentineSection({
   const stickyRef = useRef<HTMLDivElement | null>(null);
   const lineRef = useRef<HTMLDivElement | null>(null);
   const lettersRef = useRef<HTMLSpanElement[]>([]);
+  const initialized = useRef(false); // ✅ strict-mode guard
 
   const chars = useMemo(() => [...text], [text]);
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
+    if (!sectionRef.current) return;
+
+    // ✅ Prevent double init in React Strict Mode (dev)
+    if (initialized.current) return;
+    initialized.current = true;
+
+    // Kill any orphaned triggers targeting this section (hot reloads, remounts)
+    ScrollTrigger.getAll()
+      .filter((st) => st.vars?.trigger === sectionRef.current)
+      .forEach((st) => st.kill());
 
     const reduce =
       window.matchMedia &&
@@ -48,7 +59,7 @@ export default function SerpentineSection({
       // Reset
       gsap.set([lettersRef.current, lineRef.current], { clearProps: "all" });
 
-      // Start perfectly centered & readable
+      // Start centered & readable
       gsap.set(lettersRef.current, {
         x: 0,
         y: 0,
@@ -58,19 +69,16 @@ export default function SerpentineSection({
         willChange: "transform, opacity",
       });
 
-      // Compute deterministic final (off-screen) targets per letter
       const n = lettersRef.current.length;
       const mid = (n - 1) / 2;
       const vw = Math.max(window.innerWidth, 1);
       const vh = Math.max(window.innerHeight, 1);
 
-      // Base spread
       const baseX = Math.min(vw * 0.22, 320);
       const stepX = Math.min(vw * 0.06, 120);
       const baseY = Math.min(vh * 0.16, 180);
       const stepY = Math.min(vh * 0.045, 70);
 
-      // First spread vector
       const spread = lettersRef.current.map((_, index) => {
         const offset = index - mid;
         const signX = offset >= 0 ? 1 : -1;
@@ -82,7 +90,6 @@ export default function SerpentineSection({
         return { x, y, rotate, scale, signX, signY: (index % 2 === 0 ? -1 : 1) };
       });
 
-      // Final off-screen targets = spread vector + big viewport push along same direction
       const finalTargets = spread.map((t) => {
         const pushX = vw * 0.9 + Math.abs(t.x) * 0.8;
         const pushY = vh * 0.8 + Math.abs(t.y) * 0.8;
@@ -94,23 +101,21 @@ export default function SerpentineSection({
         };
       });
 
-      // Timeline: small hold, then ONE linear tween to final (constant velocity)
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
-          trigger: sectionRef.current,
+          id: `serpentine-${Math.random().toString(36).slice(2)}`, // unique id for cleanup
+          trigger: sectionRef.current!,
           start: "top top",
           end: "bottom top+=10%",
-          scrub: true,              // exact tie to scroll; no end-speed-up
-          pin: pin ? stickyRef.current : false,
+          scrub: true,
+          // ⚠️ Only pin if requested — on homepage we pass pin={false} to avoid DOM moves
+          pin: pin ? stickyRef.current! : false,
           anticipatePin: 1,
         },
       });
 
-      // A) brief hold to register the centered word
       tl.to({}, { duration: 0.1 });
-
-      // B) dismantle from center -> final off-screen in one continuous move
       tl.to(
         lettersRef.current,
         {
@@ -118,9 +123,9 @@ export default function SerpentineSection({
           y: (i: number) => finalTargets[i].y,
           rotate: (i: number) => finalTargets[i].rotate,
           scale: (i: number) => finalTargets[i].scale,
-          opacity: 0.25, // optional gentle fade; linear with scroll
+          opacity: 0.25,
           duration: 0.9,
-          stagger: { each: 0.006 }, // tiny stagger for texture, not pace change
+          stagger: { each: 0.006 },
         },
         0.1
       );
@@ -131,8 +136,19 @@ export default function SerpentineSection({
       }
     }, sectionRef);
 
-    return () => ctx.revert();
-  }, [pin]);
+    return () => {
+      // Safe, idempotent teardown
+      try {
+        ctx.revert();
+      } finally {
+        initialized.current = false;
+        // As a final sweep, remove any triggers that might linger on hot reload
+        ScrollTrigger.getAll()
+          .filter((st) => st.vars?.trigger === sectionRef.current)
+          .forEach((st) => st.kill());
+      }
+    };
+  }, [pin, text]);
 
   return (
     <section

@@ -5,10 +5,10 @@ import ChatBubble from "@/components/magicui/chat-bubble";
 export default function ChatBubbleMount() {
   return (
     <ChatBubble
-      name="Your Name"
+      name="William"
       time="11:46"
-      avatarSrc="/images/your-avatar.jpg"
-      message="That’s awesome. I think our users will really appreciate the improvements."
+      avatarSrc="/wlogo.png"
+      message="Hey! Thanks for stopping by 😊"
       persistKey="chat-bubble-dismissed-v1"  // remove to show every visit
       delayMs={350}
       deliveredLabel="Delivered"

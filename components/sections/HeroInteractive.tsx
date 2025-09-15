@@ -1,11 +1,11 @@
+// components/sections/HeroInteractive.tsx
 "use client";
 
 import { motion, useReducedMotion } from "framer-motion";
 
 /**
- * HeroInteractive (simplified)
- * - Centered headline + optional subline + CTA.
- * - No right-side cube or 3D logic.
+ * HeroInteractive (simplified, CTA removed)
+ * - Centered headline + optional subline.
  * - Motion-safe (respects prefers-reduced-motion).
  */
 export default function HeroInteractive({
@@ -44,16 +44,6 @@ export default function HeroInteractive({
             {subline}
           </motion.p>
         )}
-
-        <div className="mt-10">
-          <a
-            href="/mysite/projects"
-            className="inline-flex items-center rounded-full border border-black px-6 py-3 text-base font-medium hover:-translate-y-0.5 transition"
-          >
-            View work
-            <span aria-hidden className="ml-2">↗</span>
-          </a>
-        </div>
       </div>
     </section>
   );

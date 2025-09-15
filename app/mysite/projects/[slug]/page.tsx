@@ -1,10 +1,13 @@
 // app/mysite/projects/[slug]/page.tsx
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Space_Mono } from "next/font/google";
 import { findProjectBySlug, getAllSlugs, type Project } from "../projects.data";
 import NoHeader from "../../../../components/NoHeader"; // ← FIXED: four dots to reach app/components
+
+export const dynamicParams = true; // ← ensure non-prebuilt slugs still resolve
 
 const spaceMono = Space_Mono({
   subsets: ["latin"],
@@ -42,6 +45,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function ProjectPage({ params }: PageProps) {
   const project = findProjectBySlug(params.slug);
   if (!project) notFound();
+
+  // ---- Prev / Next computed on SERVER from authoritative list
+  const slugs = getAllSlugs(); // ordered as in data file
+  const idx = slugs.indexOf(params.slug);
+  const prevSlug = idx >= 0 && slugs.length > 1 ? slugs[(idx - 1 + slugs.length) % slugs.length] : null;
+  const nextSlug = idx >= 0 && slugs.length > 1 ? slugs[(idx + 1) % slugs.length] : null;
 
   const tags: string[] =
     Array.isArray((project as any).tags)
@@ -128,6 +137,8 @@ export default async function ProjectPage({ params }: PageProps) {
         {/* RIGHT CONTENT */}
         <main className="bg-neutral-950 px-2 sm:px-4 md:px-6 lg:px-8 py-10 md:py-16">
           <ProjectMediaRenderer project={project} />
+
+          
         </main>
       </div>
     </div>
@@ -158,9 +169,7 @@ function ProjectMediaRenderer({ project }: { project: Project }) {
                 priority={i === 0}
               />
               {m.alt ? (
-                <figcaption className="text-[0px] text-neutral-400">
-                  {m.alt}
-                </figcaption>
+                <figcaption className="text-[0px] text-neutral-400">{m.alt}</figcaption>
               ) : null}
             </figure>
           );
@@ -168,19 +177,11 @@ function ProjectMediaRenderer({ project }: { project: Project }) {
         if (m.kind === "video") {
           return (
             <figure key={i} className="w-full">
-              <video
-                className="block w-full"
-                controls
-                playsInline
-                preload="metadata"
-                poster={m.poster}
-              >
+              <video className="block w-full" controls playsInline preload="metadata" poster={m.poster}>
                 <source src={m.src} type="video/mp4" />
               </video>
               {m.caption ? (
-                <figcaption className="text-[12px] text-neutral-400">
-                  {m.caption}
-                </figcaption>
+                <figcaption className="text-[12px] text-neutral-400">{m.caption}</figcaption>
               ) : null}
             </figure>
           );
@@ -193,9 +194,7 @@ function ProjectMediaRenderer({ project }: { project: Project }) {
                 dangerouslySetInnerHTML={{ __html: m.html }}
               />
               {m.caption ? (
-                <figcaption className="text-[12px] text-neutral-400">
-                  {m.caption}
-                </figcaption>
+                <figcaption className="text-[12px] text-neutral-400">{m.caption}</figcaption>
               ) : null}
             </figure>
           );

@@ -137,10 +137,9 @@ export default function ProjectsShowcase() {
     <section
       id="projects"
       aria-label="Projects"
-      // Remove fixed height so the page can scroll; sticky works only when parent scrolls
       className="grid grid-cols-1 md:grid-cols-2 border-t border-black/10 bg-[#F1F1F1]"
     >
-      {/* LEFT: Titles (normal document flow; no internal scroller) */}
+      {/* LEFT: Titles */}
       <div className="relative">
         <ul
           className="px-6 md:px-8 py-10 md:py-12 space-y-3"
@@ -163,21 +162,31 @@ export default function ProjectsShowcase() {
                   onClick={() => setActiveId(p.id)}
                   onTouchStart={() => setActiveId(p.id)}
                   aria-current={activeState ? "true" : undefined}
-                  className="group w-full text-left py-2 md:py-3 outline-none focus-visible:ring-2 focus-visible:ring-black/60 rounded-sm"
+                  className={[
+                    "group w-full text-left py-2 md:py-3 outline-none transition-colors duration-200",
+                    "focus-visible:ring-2 focus-visible:ring-black/60 rounded-sm",
+                    "hover:bg-black hover:text-[#F1F1F1]",
+                  ].join(" ")}
                 >
                   <div className="flex items-baseline justify-between gap-4">
                     <span
                       className={[
-                        "block font-extrabold uppercase tracking-tight",
+                        "block font-extrabold uppercase tracking-tight transition-colors",
                         "text-[9vw] leading-[0.95] md:text-[5vw]",
-                        activeState
-                          ? "text-black"
-                          : "text-neutral-700 group-hover:text-black transition-colors",
+                        // Force light text on hover even if active applies `text-black`
+                        "group-hover:!text-[#F1F1F1]",
+                        activeState ? "text-black" : "text-neutral-700",
                       ].join(" ")}
                     >
                       {p.title}
                     </span>
-                    <span className="hidden md:block text-sm text-neutral-500 group-hover:text-neutral-800">
+                    <span
+                      className={[
+                        "hidden md:block text-sm transition-colors",
+                        "text-neutral-500",
+                        "group-hover:!text-[#F1F1F1]/80",
+                      ].join(" ")}
+                    >
                       {p.year}
                     </span>
                   </div>
@@ -194,7 +203,7 @@ export default function ProjectsShowcase() {
         </ul>
       </div>
 
-      {/* RIGHT: Sticky preview (sticks while the page scrolls) */}
+      {/* RIGHT: Sticky preview */}
       <div className="relative md:sticky md:top-0 md:h-[100svh] bg-neutral-900">
         <div className="absolute inset-0">
           <AnimatePresence mode="wait">
@@ -207,7 +216,6 @@ export default function ProjectsShowcase() {
               className="absolute inset-0"
             >
               {active.media.kind === "image" ? (
-                // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={active.media.src}
                   alt={`${active.title} preview`}

@@ -1,0 +1,172 @@
+{
+    "compilerOptions": {
+        "target": "es2022",
+        "lib": [
+            "es2022",
+            "dom",
+            "dom.iterable"
+        ],
+        "module": "esnext",
+        "moduleResolution": "bundler",
+        "jsx": "react-jsx",
+        "strict": true,
+        "noEmit": true,
+        "skipLibCheck": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "forceConsistentCasingInFileNames": true,
+        "resolveJsonModule": true,
+        "incremental": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": [
+                "./*"
+            ],
+            "@components/*": [
+                "components/*"
+            ],
+            "@/components/*": [
+                "components/*"
+            ],
+            "@sections/*": [
+                "components/sections/*"
+            ],
+            "@/sections/*": [
+                "components/sections/*"
+            ],
+            "@data/*": [
+                "data/*"
+            ],
+            "@/data/*": [
+                "data/*"
+            ],
+            "@lib/*": [
+                "lib/*"
+            ],
+            "@/lib/*": [
+                "lib/*"
+            ]
+        },
+        "plugins": [
+            {
+                "name": "next"
+            }
+        ],
+        "resolvePackageJsonExports": true,
+        "resolvePackageJsonImports": true,
+        "preserveConstEnums": true,
+        "useDefineForClassFields": true,
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictBindCallApply": true,
+        "strictPropertyInitialization": true,
+        "strictBuiltinIteratorReturn": true,
+        "alwaysStrict": true,
+        "useUnknownInCatchVariables": true
+    },
+    "files": [
+        "./next-env.d.ts",
+        "./global.d.ts",
+        "./next.config.ts",
+        "./app/api/contact/route.ts",
+        "./app/mysite/projects/projects.data.ts",
+        "./components/hooks/useScrollDirection.ts",
+        "./components/hooks/useSectionTheme.ts",
+        "./data/HoverRevealCardData.ts",
+        "./data/skills.ts",
+        "./data/work.data.ts",
+        "./lib/cn.ts",
+        "./lib/scroll-blur-typography.ts",
+        "./lib/useBodyLock.ts",
+        "./lib/useElementHeight.ts",
+        "./lib/useImagePrefetch.ts",
+        "./lib/utils.ts",
+        "./sassy-footers/vite.config.ts",
+        "./sassy-footers/src/vite-env.d.ts",
+        "./app/layout.tsx",
+        "./app/page.tsx",
+        "./app/providers.tsx",
+        "./app/about/page.tsx",
+        "./app/demo/scroll-velocity/page.tsx",
+        "./app/demo/scroll-velocity/(demo)/serpentine/page.tsx",
+        "./app/field-notes/page.tsx",
+        "./app/homev2/page.tsx",
+        "./app/icedream/page.tsx",
+        "./app/mysite/contact/page.tsx",
+        "./app/mysite/projects/[slug]/layout.tsx",
+        "./app/mysite/projects/[slug]/page.tsx",
+        "./app/philosophy/page.tsx",
+        "./app/profile/page.tsx",
+        "./app/serpentine/page.tsx",
+        "./app/skills/layout.tsx",
+        "./app/skills/page.tsx",
+        "./app/work/page.tsx",
+        "./components/Header2.tsx",
+        "./components/Hero2.tsx",
+        "./components/NoHeader.tsx",
+        "./components/RouteScrollRestoration.tsx",
+        "./components/forms/ContactForm.tsx",
+        "./components/interactive/FieldNotesGrid.tsx",
+        "./components/interactive/HoverCard.tsx",
+        "./components/interactive/K72Menu.tsx",
+        "./components/interactive/MagneticCursor.tsx",
+        "./components/magicui/chat-bubble-mount.tsx",
+        "./components/magicui/chat-bubble.tsx",
+        "./components/magicui/scroll-based-velocity.tsx",
+        "./components/magicui/text-reveal.tsx",
+        "./components/projects/ProjectPageBase.tsx",
+        "./components/projects/[slug]/layout.tsx",
+        "./components/projects/[slug]/not-found.tsx",
+        "./components/projects/[slug]/page.tsx",
+        "./components/sections/CaseTeaserCard.tsx",
+        "./components/sections/DesignCarousel.tsx",
+        "./components/sections/HeroInteractive.tsx",
+        "./components/sections/HoverRevealCard.tsx",
+        "./components/sections/MarqueeSection.tsx",
+        "./components/sections/MosaicScroller.tsx",
+        "./components/sections/MyProcess.tsx",
+        "./components/sections/ProjectsShowcase.tsx",
+        "./components/sections/ScrollFlipShowcase.tsx",
+        "./components/sections/ScrollTriggered.tsx",
+        "./components/sections/ScrollVelocityMediaDemo.tsx",
+        "./components/sections/SerpentineSection.tsx",
+        "./components/sections/StickyGallery.tsx",
+        "./components/sections/StickyPhilosophy.tsx",
+        "./components/site/Footer.tsx",
+        "./components/site/Header.tsx",
+        "./components/skills/SkillCard.tsx",
+        "./components/skills/SkillOverlay.tsx",
+        "./components/skills/SkillsFilterBar.tsx",
+        "./components/skills/SkillsGrid.tsx",
+        "./components/ui/button.tsx",
+        "./components/utility/SplitText.tsx",
+        "./components/work/CursorPreview.tsx",
+        "./components/work/WorkList.tsx",
+        "./components/work/WorkRow.tsx",
+        "./sassy-footers/src/App.tsx",
+        "./sassy-footers/src/main.tsx",
+        "./sassy-footers/src/components/Tabs.tsx",
+        "./sassy-footers/src/components/scroll-effect-four.tsx",
+        "./sassy-footers/src/components/scroll-effect-three.tsx",
+        "./sassy-footers/src/components/scroll-effect-two.tsx",
+        "./sassy-footers/src/components/dia/dia-footer-gradient.tsx",
+        "./sassy-footers/src/components/dia/dia-scroll-effect.tsx",
+        "./.next/types/routes.d.ts",
+        "./.next/types/validator.ts"
+    ],
+    "include": [
+        "next-env.d.ts",
+        "global.d.ts",
+        "**/*.ts",
+        "**/*.tsx",
+        ".next/types/**/*.ts",
+        "components",
+        "app"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

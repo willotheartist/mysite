@@ -1,111 +1,134 @@
+// app/page.tsx
 "use client";
 
-import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-// ❌ Removed: BubbleMenu import
 
 // 🚫 Avoid SSR issues for DOM/scroll heavy components
-const StickyGallery = dynamic(() => import("@/components/sections/StickyGallery"), { ssr: false });
-const DesignCarousel = dynamic(() => import("@/components/sections/DesignCarousel"), { ssr: false });
-const ScrollFlipShowcase = dynamic(() => import("@/components/sections/ScrollFlipShowcase"), { ssr: false });
-const MosaicScroller = dynamic(() => import("@/components/sections/MosaicScroller"), { ssr: false });
-// ✅ Projects list + hover preview
 const ProjectsShowcase = dynamic(() => import("@/components/sections/ProjectsShowcase"), { ssr: false });
-// ✅ New interactive hero
 const HeroInteractive = dynamic(() => import("@/components/sections/HeroInteractive"), { ssr: false });
+// ✅ Serpentine animated text
+const SerpentineSection = dynamic(() => import("@/components/sections/SerpentineSection"), { ssr: false });
+// 🧵 Marquee section (slow scroll, 200px text)
+const MarqueeSection = dynamic(() => import("@/components/sections/MarqueeSection"), { ssr: false });
 
-// ❌ Removed: INDUSTRY_ITEMS (no longer used)
+// 🧊 Hover reveal cards
+const HoverRevealCard = dynamic(
+  () => import("@/sections/HoverRevealCard").then((m) => m.default),
+  { ssr: false }
+);
+
+// 🖱️ Mouse image trail overlay (portaled to body; clipped to #hero)
+const MouseImageTrail = dynamic(() => import("@/components/MouseImageTrail"), { ssr: false });
+
+// 🔗 Data for HoverRevealCard
+import { HoverRevealCardData } from "@/data/HoverRevealCardData";
 
 export default function Home() {
   const router = useRouter();
 
   return (
-    <main className="bg-[#F1F1F1] text-black selection:bg-black selection:text-[#F1F1F1] relative">
+    <main className="bg-[#F1F1F1] text-black selection:bg-black selection:text-[#F1F1F1] relative isolate">
       {/* HERO — Interactive Split */}
-      <HeroInteractive
-        title="I design clear, human products — with systems that scale."
-        subline="Brand, product, and motion — shipped with care since 2015."
-      />
+      <section id="hero" className="relative isolate">
+        <HeroInteractive
+          title="I design clear, human products — with systems that scale."
+          subline="Brand, product, and motion — shipped with care since 2015."
+        />
 
-      {/* STICKY HORIZONTAL GALLERY */}
-      <section id="work" className="border-b border-black/10">
-        <StickyGallery />
-      </section>
-
-      {/* 🔥 SCROLL FLIP SHOWCASE */}
-      <section id="scrollflip" className="border-b border-black/10">
-        <ScrollFlipShowcase images={["/case/case-01.jpg", "/case/case-02.jpg", "/case/case-03.jpg"]} />
-      </section>
-
-      {/* ⭐ MOSAIC GRID */}
-      <section id="mosaic" className="border-b border-black/10">
-        <MosaicScroller
-          title="Live Pieces & Loops"
-          items={[
-            { id: "v1", type: "video", src: "/grid-videos/grid-video-1.mp4", size: "lg" },
-            { id: "v2", type: "video", src: "/grid-videos/grid-video-2.mp4", size: "sm" },
-            { id: "v3", type: "video", src: "/grid-videos/grid-video-3.mp4", size: "md" },
-            { id: "v4", type: "video", src: "/grid-videos/grid-video-4.mp4", size: "sm" },
-            { id: "v5", type: "video", src: "/grid-videos/grid-video-5.mp4", size: "lg" },
-            { id: "v6", type: "video", src: "/grid-videos/grid-video-6.mp4", size: "xl" },
-            { id: "v7", type: "video", src: "/grid-videos/grid-video-7.mp4", size: "sm" },
-            { id: "v8", type: "video", src: "/grid-videos/grid-video-8.mp4", size: "md" },
-            { id: "v9", type: "video", src: "/grid-videos/grid-video-9.mp4", size: "lg" },
-            { id: "v10", type: "video", src: "/grid-videos/grid-video-10.mp4", size: "sm" },
-            { id: "v11", type: "video", src: "/grid-videos/grid-video-11.mp4", size: "md" },
-            { id: "v12", type: "video", src: "/grid-videos/grid-video-12.mp4", size: "lg" },
-            { id: "v13", type: "video", src: "/grid-videos/grid-video-13.mp4", size: "sm" },
-            { id: "v14", type: "video", src: "/grid-videos/grid-video-14.mp4", size: "xl" },
-            { id: "v15", type: "video", src: "/grid-videos/grid-video-15.mp4", size: "md" },
-            { id: "v16", type: "video", src: "/grid-videos/grid-video-16.mp4", size: "sm" },
-            { id: "v17", type: "video", src: "/grid-videos/grid-video-17.mp4", size: "lg" },
+        {/* Image trail overlay (always full opacity; visible only within #hero) */}
+        <MouseImageTrail
+          images={[
+            "/images/trail/shot-1.jpg",
+            "/images/trail/shot-2.jpg",
+            "/images/trail/shot-3.jpg",
+            "/images/trail/shot-4.jpg",
           ]}
+          className="z-[1000]"
+          mixBlendMode="normal"
+          respectReducedMotion={false}
+          spawnRateMs={120}
+          minDistancePx={24}
+          peakOpacity={1}
+          scope="#hero"
+          // bump key to force a fresh mount if HMR cached the old chunk
+          key="mit-v5"
+          debug
         />
       </section>
 
-      {/* DESIGN CAROUSEL */}
-      <section id="designs" className="border-b border-black/10">
-        <DesignCarousel
-          images={[
-            "/designs/design-1.jpg",
-            "/designs/design-2.jpg",
-            "/designs/design-3.jpg",
-            "/designs/design-4.jpg",
-            "/designs/design-5.jpg",
-            "/designs/design-6.jpg",
-            "/designs/design-7.jpg",
-            "/designs/design-8.jpg",
-            "/designs/design-9.jpg",
-            "/designs/design-10.jpg",
-          ]}
-          title="Selected Designs"
-          subtitle="10 shots, spinning in orbit"
+      {/* 🔤 SERPENTINE */}
+      <section id="serpentine" className="border-b border-black/10">
+        <SerpentineSection
+          text="LET'S BREAK THE ICE"
+          heightClassName="h-[180vh]"
+          pin={false}
         />
       </section>
 
       {/* PROJECTS LIST */}
-      <section id="projects-list" className="border-b border-black/10">
+      <section
+        id="projects-list"
+        className="border-b border-black/10 relative z-10 scroll-mt-24"
+      >
         <ProjectsShowcase />
       </section>
 
-      {/* FINAL CTA */}
-      <section id="cta" className="min-h-[70vh] grid place-items-center px-6 py-24">
-        <div className="max-w-3xl text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight">Ready to make it unmistakable?</h2>
-          <p className="mt-4 text-neutral-800">
-            Plug real case studies into the scroll sections, swap text blocks for product shots, Rive/Lottie, and live components.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button onClick={() => router.push("/contact")}>Start a Project</Button>
-            <Button variant="outline" onClick={() => router.push("/work")}>View Work</Button>
+      {/* 🧊 HOVER REVEAL CARDS */}
+      <section
+        id="hover-reveal"
+        className="border-b border-black/10 px-6 py-16 md:py-24 relative z-0 pb-32 lg:pb-72 [transform-style:flat]"
+      >
+        <header className="grid grid-cols-1 md:grid-cols-12 items-start gap-6 md:gap-8 mb-10 md:mb-14">
+          <h2 className="md:col-span-7 text-[60px] leading-[1.1] font-semibold tracking-tight text-neutral-900">
+            Some <br /> thoughts <br /> &amp; articles.
+          </h2>
+          <div className="md:col-span-5 flex flex-col space-y-4 md:ml-auto">
+            <p className="text-neutral-800 max-w-sm">
+              Part journal, part thought experiment, part design diary. Dispatches
+              from the day-to-day: what I’m learning, questioning, and building.
+            </p>
+            <Button
+              variant="solid"
+              className="w-fit"
+              onClick={() => router.push("/articles")}
+            >
+              Read more
+            </Button>
+          </div>
+        </header>
+
+        <div className="border-t border-black/10 pt-10 md:pt-14">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {HoverRevealCardData.map((p) => (
+              <div key={p.slug} className="w-full">
+                <HoverRevealCard
+                  imageSrc={p.cover}
+                  title={p.title}
+                  className="h-full w-full aspect-[4/5] md:aspect-square xl:aspect-[4/3]"
+                  href={
+                    p.title === "Finding Flow in a World of Noise"
+                      ? "/articles/finding-flow"
+                      : p.title === "AI Isn’t Replacing Designers...It’s Expanding the Playground"
+                      ? "/articles/ai-expanding-playground"
+                      : p.title === "Why Every Designer Should Think Like a Filmmaker"
+                      ? "/articles/designers-as-filmmakers"
+                      : undefined
+                  }
+                />
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ❌ Removed: BubbleMenu floating menu */}
-      {/* ❌ Removed: unused industry anchor divs */}
+      <div aria-hidden className="h-8 lg:h-20" />
+
+      {/* ⬇️ NEW: MARQUEE just before FOOTER */}
+      <section id="marquee">
+        <MarqueeSection />
+      </section>
     </main>
   );
 }

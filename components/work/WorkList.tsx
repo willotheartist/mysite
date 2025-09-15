@@ -2,9 +2,9 @@
 "use client";
 
 import * as React from "react";
-import type { WorkItem } from "@data/work.data";
-import WorkRow from "@components/work/WorkRow";
-import CursorPreview from "@components/work/CursorPreview";
+import type { WorkItem } from "@/data/work.data";
+import WorkRow from "@/components/work/WorkRow";
+import CursorPreview from "@/components/work/CursorPreview";
 
 export default function WorkList({ items }: { items: WorkItem[] }) {
   const [active, setActive] = React.useState<WorkItem | null>(null);

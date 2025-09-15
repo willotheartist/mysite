@@ -1,3 +1,4 @@
+/* app/globals.css */
 @import "tailwindcss";
 
 /* ===== Design Tokens (Light base) ===== */
@@ -12,14 +13,7 @@
   --font-mono: var(--font-geist-mono, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace);
 }
 
-/* Optional: basic dark-scheme token swap (not active unless you add a toggle) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0a0a0a;
-    --fg: #ededed;
-    --muted: #cfcfcf;
-  }
-}
+/* Dark theme removed (no toggle) */
 
 /* ===== Map tokens to Tailwind v4 theme vars ===== */
 @theme inline {
@@ -38,6 +32,7 @@ html, body {
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color-scheme: light; /* force light UI chrome */
 }
 
 /* Improve text selection contrast */
@@ -49,6 +44,17 @@ html, body {
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+/* ===== Typography plugin alignment (prevent gray text) ===== */
+.prose{
+  --tw-prose-body: var(--fg);
+  --tw-prose-headings: var(--fg);
+  --tw-prose-lead: var(--fg);
+  --tw-prose-links: var(--fg);
+  --tw-prose-bold: var(--fg);
+  --tw-prose-counters: var(--fg);
+  --tw-prose-bullets: var(--fg);
 }
 
 /* ===== Magnetic cursor (used by components/interactive/MagneticCursor.tsx) ===== */
@@ -132,4 +138,16 @@ html.no-header body > div[role="banner"] {
 #industry-photo,
 #industry-mindfulness {
   display: none !important;
+}
+
+/* ======== SCROLL FREEZE HOTFIX (minimal, append-only) ======== */
+/* Let the document actually scroll and avoid root locks */
+html, body { height: auto !important; }
+html, body { overflow: visible !important; }
+/* Ensure no competing smooth scrolling (Lenis/native can fight) */
+html { scroll-behavior: auto !important; }
+/* Neutralize any lingering Lenis transforms if classes were added elsewhere */
+html.lenis, html.lenis-smooth, body.lenis, body.lenis-smooth {
+  transform: none !important;
+  will-change: auto !important;
 }

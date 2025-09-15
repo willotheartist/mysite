@@ -1,0 +1,40 @@
+/* components/MyLifeStickyTabs.module.css */
+
+.cta {
+  position: relative;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+  will-change: transform;
+}
+.cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+  border-color: rgba(0,0,0,0.18);
+}
+.cta:active {
+  transform: translateY(0);
+}
+
+.ctaSecondary {
+  position: relative;
+  transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+}
+.ctaSecondary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+  border-color: rgba(0,0,0,0.16);
+}
+
+.ctaCircle,
+.ctaCircleSmall {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  pointer-events: none;
+  background: radial-gradient(60% 60% at 100% 0%, color-mix(in srgb, var(--ring) 20%, transparent) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 200ms ease;
+}
+.cta:hover .ctaCircle,
+.ctaSecondary:hover .ctaCircleSmall {
+  opacity: 1;
+}

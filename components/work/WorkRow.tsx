@@ -4,8 +4,8 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import * as React from "react";
-import type { WorkItem } from "@data/work.data";
-import { useImagePrefetch } from "@lib/useImagePrefetch";
+import type { WorkItem } from "@/data/work.data";
+import { useImagePrefetch } from "@/lib/useImagePrefetch";
 
 type Props = {
   item: WorkItem;
